@@ -46,31 +46,21 @@ namespace ProductsManagement.Controllers
 
         }
         [HttpPut]
-        public bool PutProducts(int id,Products pp)
+        public Products PutProducts(Products pp)
         {
            
 
-            if (id != pp.p_id)
-            {
-                return false;
-            }
             db.Entry(pp).State = EntityState.Modified;
             try
             {
                 db.SaveChanges();
-                return true;
+                return pp;
 
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (db.Products.Count(e => e.p_id == id) > 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
+                throw new Exception(ex.Message);
+
             }
 
         }
